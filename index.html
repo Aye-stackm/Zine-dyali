@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>أعتذر ❤️</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}
+body{background:#050814;color:white}
+.screen{position:fixed;inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+#intro{background:radial-gradient(circle at 50% 35%,#27345d 0,#10162d 42%,#03050d 100%);padding:24px}
+.card{text-align:center;max-width:700px;padding:38px 25px}
+h1{font-size:clamp(34px,9vw,72px);margin:0 0 34px;line-height:1.25;text-shadow:0 4px 25px #000}
+button{border:0;border-radius:999px;padding:17px 34px;font-size:22px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff4f82,#9b3cff);box-shadow:0 10px 35px #ff3e7a55;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.96)}
+#night{display:none;background:radial-gradient(circle at 50% 20%,#283969 0,#101a36 38%,#040713 78%,#010207 100%);touch-action:manipulation;cursor:crosshair}
+.moon{position:absolute;top:9%;left:12%;width:82px;height:82px;border-radius:50%;background:#fff7d6;box-shadow:0 0 45px 15px #fff4b655,0 0 100px 20px #fff4b622}
+.stars{position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#fff 1px,transparent 1px);background-size:97px 113px,151px 137px;background-position:15px 20px,65px 70px;opacity:.7}
+.hint{position:absolute;top:7%;right:50%;transform:translateX(50%);font-size:17px;color:#ffffffbb;text-shadow:0 2px 8px #000;pointer-events:none}
+#layer{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.float{position:absolute;bottom:-80px;font-size:var(--size);animation:up linear forwards;filter:drop-shadow(0 4px 8px #0008)}
+.kiss{position:absolute;font-size:var(--s,26px);animation:kiss 1.7s ease-out forwards;filter:drop-shadow(0 2px 6px #0008)}
+@keyframes up{to{transform:translate(var(--x),-120vh) rotate(var(--rot));opacity:0}}
+@keyframes kiss{0%{opacity:0;transform:scale(.4)}15%{opacity:1}100%{opacity:0;transform:translateY(-110px) scale(1.15)}}
+.touch-flower{position:absolute;width:1px;height:1px;transform:translate(-50%,-50%);animation:flowerlife 2.7s ease-out forwards}
+@keyframes flowerlife{0%{opacity:0}10%{opacity:1}78%{opacity:1}100%{opacity:0}}
+.word{position:absolute;bottom:46px;right:50%;transform:translateX(50%);font-size:22px;font-weight:800;white-space:nowrap;color:#ffd4e2;text-shadow:0 2px 10px #000,0 0 15px #ff5b91}
+.touch-stem{position:absolute;width:5px;height:0;background:linear-gradient(#2b8d43,#155c2d);left:-2px;top:5px;border-radius:10px;animation:stem 1.1s ease-out forwards;transform-origin:top}
+@keyframes stem{to{height:100px}}
+.realrose{position:absolute;left:-22px;top:-25px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#ffd1dc 0 8%,#e92958 10% 25%,#a50831 27% 43%,#ff416d 45% 56%,#8a062a 58% 100%);box-shadow:0 0 22px #ff315caa;animation:bloom .8s ease-out}
+@keyframes bloom{0%{transform:scale(.1) rotate(-30deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.leaf{position:absolute;width:25px;height:13px;background:#238542;border-radius:100% 0 100% 0;top:65px}
+.leaf.l{left:-22px;transform:rotate(-25deg)}
+.leaf.r{left:0;transform:scaleX(-1) rotate(-25deg)}
+.petal{display:block}
+</style>
+</head>
+<body>
+<section id="intro" class="screen">
+  <div class="card">
+    <h1>أعتذر على ما حدث أمس</h1>
+    <button id="enter" type="button">اضغطي هنا</button>
+  </div>
+</section>
+
+<section id="night" class="screen" aria-label="سماء ليلية تفاعلية">
+  <div class="stars"></div>
+  <div class="moon"></div>
+  <div class="hint">اضغطي في أي مكان في السماء ✨</div>
+  <div id="layer"></div>
+</section>
+
+<script>
+(function(){
+  function init(){
+    var intro=document.getElementById('intro');
+    var night=document.getElementById('night');
+    var enter=document.getElementById('enter');
+    var layer=document.getElementById('layer');
+    var words=['لامورتي','حبي','عمري','حياتي','قلبي'];
+    var wi=0, started=false, lastTouch=0;
+
+    function openNight(e){
+      if(e){e.preventDefault();e.stopPropagation();}
+      intro.style.display='none';
+      night.style.display='flex';
+      startFloaters();
+    }
+
+    enter.addEventListener('click',openNight);
+    enter.addEventListener('touchend',openNight,{passive:false});
+
+    function startFloaters(){
+      if(started)return;
+      started=true;
+      setInterval(function(){
+        var f=document.createElement('div');
+        f.className='float';
+        f.innerHTML='<span class="petal">'+(Math.random()<.8?'🌹':'🌷')+'</span>';
+        f.style.left=(Math.random()*100)+'%';
+        f.style.setProperty('--x',(Math.random()*160-80)+'px');
+        f.style.setProperty('--rot',(Math.random()*50-25)+'deg');
+        f.style.setProperty('--size',(22+Math.random()*20)+'px');
+        f.style.animationDuration=(6+Math.random()*5)+'s';
+        layer.appendChild(f);
+        setTimeout(function(){f.remove()},13000);
+      },700);
+      setInterval(function(){
+        var k=document.createElement('div');
+        k.className='kiss';
+        k.textContent='💋';
+        k.style.left=(10+Math.random()*80)+'%';
+        k.style.bottom=(10+Math.random()*35)+'%';
+        k.style.setProperty('--s',(20+Math.random()*18)+'px');
+        layer.appendChild(k);
+        setTimeout(function(){k.remove()},1800);
+      },1800);
+    }
+
+    function flower(clientX,clientY){
+      if(night.style.display==='none')return;
+      var r=night.getBoundingClientRect();
+      var f=document.createElement('div');
+      f.className='touch-flower';
+      f.style.left=(clientX-r.left)+'px';
+      f.style.top=(clientY-r.top)+'px';
+      f.innerHTML='<div class="word">'+words[wi++%words.length]+'</div><div class="realrose"></div><div class="touch-stem"></div><div class="leaf l"></div><div class="leaf r"></div>';
+      layer.appendChild(f);
+      if(Math.random()<.7){
+        var k=document.createElement('div');
+        k.className='kiss';
+        k.textContent='💋';
+        k.style.left=(clientX-r.left-12)+'px';
+        k.style.top=(clientY-r.top-60)+'px';
+        k.style.setProperty('--s','25px');
+        layer.appendChild(k);
+        setTimeout(function(){k.remove()},1800);
+      }
+      setTimeout(function(){f.remove()},2800);
+    }
+
+    night.addEventListener('pointerdown',function(e){
+      lastTouch=Date.now();
+      flower(e.clientX,e.clientY);
+    },{passive:true});
+
+    night.addEventListener('touchstart',function(e){
+      if(e.touches && e.touches[0]){
+        lastTouch=Date.now();
+        flower(e.touches[0].clientX,e.touches[0].clientY);
+      }
+    },{passive:true});
+
+    night.addEventListener('click',function(e){
+      if(Date.now()-lastTouch>500) flower(e.clientX,e.clientY);
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
+})();
+</script>
+</body>
+</html>
